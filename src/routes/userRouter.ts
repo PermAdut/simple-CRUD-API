@@ -1,13 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { HHTPmethod } from '../types.js';
+import { HHTPmethod } from '../types.ts';
 import {
   createUser,
   deleteUserById,
   getAllUsers,
   getUserById,
   updateUserById,
-} from '../operations/handleRequests.js';
-import { notFoundErrorHandler } from '../middleware/errorHandler.js';
+} from '../operations/handleRequests.ts';
+import { notFoundErrorHandler } from '../middleware/errorHandler.ts';
 
 function findOccurances(str: string): number {
   let result = 0;

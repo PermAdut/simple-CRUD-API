@@ -1,13 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { IReqBody, IUser } from '../models/userModel.js';
+import { IReqBody, IUser } from '../models/userModel.ts';
 import {
   createUserData,
   deleteUser,
   getAllUsersData,
   getUserById as getUser,
   updateUserData,
-} from '../users/users.js';
-import { parseRequestBody } from '../middleware/parsingBody.js';
+} from '../users/users.ts';
+import { parseRequestBody } from '../middleware/parsingBody.ts';
 import { validate } from 'uuid';
 
 function sendResponse(res: ServerResponse, status: number, data: unknown) {
@@ -23,7 +23,7 @@ export async function getAllUsers(
     const users: IUser[] = await getAllUsersData();
     sendResponse(res, 200, users);
   } catch {
-    sendResponse(res, 500, 'Server response error');
+    sendResponse(res, 500, { message: 'Server response error' });
   }
 }
 
@@ -37,10 +37,14 @@ export async function createUser(
       const user = await createUserData(newUser);
       sendResponse(res, 201, user);
     } else {
-      sendResponse(res, 400, 'Request body does not contain required fields');
+      sendResponse(res, 400, {
+        message: 'Request body does not contain required fields',
+      });
     }
   } catch {
-    sendResponse(res, 400, 'Request body does not contain required fields');
+    sendResponse(res, 400, {
+      message: 'Request body does not contain required fields',
+    });
   }
 }
 
@@ -55,14 +59,14 @@ export async function getUserById(
       if (user) {
         sendResponse(res, 200, user);
       } else {
-        sendResponse(res, 404, 'User does not exist');
+        sendResponse(res, 404, { message: 'User does not exist' });
       }
     } else {
-      sendResponse(res, 400, 'Invalid id');
+      sendResponse(res, 400, { message: 'Invalid id' });
       return;
     }
   } catch {
-    sendResponse(res, 500, 'Server response error');
+    sendResponse(res, 500, { message: 'Server response error' });
   }
 }
 
@@ -77,14 +81,14 @@ export async function deleteUserById(
       if (user) {
         sendResponse(res, 204, user);
       } else {
-        sendResponse(res, 404, 'User does not exist');
+        sendResponse(res, 404, { message: 'User does not exist' });
       }
     } else {
-      sendResponse(res, 400, 'Invalid id');
+      sendResponse(res, 400, { message: 'Invalid id' });
       return;
     }
   } catch {
-    sendResponse(res, 500, 'Server response error');
+    sendResponse(res, 500, { message: 'Server response error' });
   }
 }
 
@@ -101,14 +105,16 @@ export async function updateUserById(
         if (user) {
           sendResponse(res, 200, user);
         } else {
-          sendResponse(res, 404, 'User does not exist');
+          sendResponse(res, 404, { message: 'User does not exist' });
         }
       }
     } else {
-      sendResponse(res, 400, 'Invalid id');
+      sendResponse(res, 400, { message: 'Invalid id' });
       return;
     }
   } catch {
-    sendResponse(res, 400, 'Request body does not contain required fields');
+    sendResponse(res, 400, {
+      message: 'Request body does not contain required fields',
+    });
   }
 }

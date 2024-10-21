@@ -1,11 +1,12 @@
-import { IUser, IReqBody } from '../models/userModel.js';
+import { IUser, IReqBody } from '../models/userModel.ts';
 import { v4 } from 'uuid';
 
 const allUsers: IUser[] = [];
 
 export async function createUserData(userData: IReqBody): Promise<IUser> {
-  allUsers.push({ id: v4(), ...userData });
-  return { id: v4(), ...userData };
+  const id = v4();
+  allUsers.push({ id: id, ...userData });
+  return { id: id, ...userData };
 }
 
 export async function getAllUsersData(): Promise<IUser[]> {

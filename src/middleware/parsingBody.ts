@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http';
-import { IReqBody } from '../models/userModel.js';
+import { IReqBody } from '../models/userModel.ts';
 
 export async function parseRequestBody(
   req: IncomingMessage,

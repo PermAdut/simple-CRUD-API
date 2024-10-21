@@ -1,11 +1,11 @@
 import { config } from 'dotenv';
 config();
 import { createServer } from 'http';
-import { handleUserRouter } from './routes/userRouter.js';
+import { handleUserRouter } from './routes/userRouter.ts';
 import {
   notFoundErrorHandler,
   serverErrorHandler,
-} from './middleware/errorHandler.js';
+} from './middleware/errorHandler.ts';
 
 const PORT: string = process.env.PORT || '4000';
 

@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http';
-import { throwErrorResponse } from '../utils/errorResponse.js';
+import { throwErrorResponse } from '../utils/errorResponse.ts';
 
 export const serverErrorHandler = (
   res: ServerResponse,
