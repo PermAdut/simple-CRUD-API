@@ -1,6 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { HHTPmethod } from '../types.js';
 import {
+    getAllUsers,
+    createUser,
   handleDeleteMethod,
   handleGetMethod,
   handlePostMethod,
@@ -15,24 +17,26 @@ export async function handleUserRouter(
   const { method } = req;
   if(path == "api/users"){
     if(method == HHTPmethod.GET){
-        
+        await getAllUsers(req,res);
     }
-    
+    if(method == HHTPmethod.POST){
+        await createUser(req,res)
+    }
   }
 
 
   switch (method) {
     case HHTPmethod.GET:
-      handleGetMethod();
+      await handleGetMethod();
       return true;
     case HHTPmethod.DELETE:
-      handleDeleteMethod();
+      await handleDeleteMethod();
       return true;
     case HHTPmethod.POST:
-      handlePostMethod();
+      await handlePostMethod();
       return true;
     case HHTPmethod.PUT:
-      handlePutMethod();
+      await handlePutMethod();
       return true;
   }
 

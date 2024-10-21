@@ -3,12 +3,12 @@ import { v4 } from 'uuid';
 
 const allUsers: IUser[] = [];
 
-export async function createUser(userData: IReqBody): Promise<IUser> {
+export async function createUserData(userData: IReqBody): Promise<IUser> {
   allUsers.push({ id: v4(), ...userData });
   return { id: v4(), ...userData };
 }
 
-export async function getAllUsers(): Promise<IUser[]> {
+export async function getAllUsersData(): Promise<IUser[]> {
   return allUsers;
 }
 
@@ -31,7 +31,7 @@ export async function deleteUser(id: string): Promise<boolean> {
   }
 }
 
-export async function updateUser(
+export async function updateUserData(
   id: string,
   userInfo: IReqBody,
 ): Promise<IUser | undefined> {
