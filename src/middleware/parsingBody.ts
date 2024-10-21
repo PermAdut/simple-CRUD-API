@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http';
-import { IReqBody } from 'src/models/userModel.js';
+import { IReqBody } from '../models/userModel.js';
 
 export async function parseRequestBody(
   req: IncomingMessage,
@@ -30,7 +30,7 @@ export async function parseRequestBody(
   });
 }
 
-function onlyAllowedFields(obj: Object): boolean {
+function onlyAllowedFields(obj: object): boolean {
   const objKeys = Object.keys(obj);
   const reqBodyKeys = Object.keys({ username: '', age: 10, hobbies: [] });
   if (objKeys.length !== reqBodyKeys.length) {

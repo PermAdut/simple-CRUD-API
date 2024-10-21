@@ -1,4 +1,4 @@
-import { IUser, IReqBody } from 'src/models/userModel.js';
+import { IUser, IReqBody } from '../models/userModel.js';
 import { v4 } from 'uuid';
 
 const allUsers: IUser[] = [];
@@ -12,13 +12,8 @@ export async function getAllUsersData(): Promise<IUser[]> {
   return allUsers;
 }
 
-export async function getUserById(id: string): Promise<IUser[] | undefined> {
-  allUsers.find((el: IUser) => {
-    if (el.id === id) {
-      return el;
-    }
-  });
-  return undefined;
+export async function getUserById(id: string): Promise<IUser | undefined> {
+  return allUsers.find((el: IUser) => el.id == id);
 }
 
 export async function deleteUser(id: string): Promise<boolean> {
@@ -43,6 +38,8 @@ export async function updateUserData(
       id: id,
       ...userInfo,
     };
+    console.log(index);
+    console.log(allUsers[index]);
     return allUsers[index];
   }
 }

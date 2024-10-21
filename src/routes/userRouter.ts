@@ -1,42 +1,61 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { HHTPmethod } from '../types.js';
 import {
-    getAllUsers,
-    createUser,
-  handleDeleteMethod,
-  handleGetMethod,
-  handlePostMethod,
-  handlePutMethod,
+  createUser,
+  deleteUserById,
+  getAllUsers,
+  getUserById,
+  updateUserById,
 } from '../operations/handleRequests.js';
+import { notFoundErrorHandler } from '../middleware/errorHandler.js';
+
+function findOccurances(str: string): number {
+  let result = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] == '/') {
+      result++;
+    }
+  }
+  return result;
+}
 
 export async function handleUserRouter(
   req: IncomingMessage,
   res: ServerResponse,
   path: string,
 ): Promise<boolean> {
-  const { method } = req;
-  if(path == "api/users"){
-    if(method == HHTPmethod.GET){
-        await getAllUsers(req,res);
+  const method = req.method;
+  if (!path.startsWith('/api/users')) {
+    await notFoundErrorHandler(res);
+    return true;
+  }
+  if (findOccurances(path) != 2 && findOccurances(path) != 3) {
+    await notFoundErrorHandler(res);
+    return true;
+  }
+  if (path == '/api/users') {
+    if (method == HHTPmethod.GET) {
+      await getAllUsers(req, res);
+      return true;
     }
-    if(method == HHTPmethod.POST){
-        await createUser(req,res)
+    if (method == HHTPmethod.POST) {
+      await createUser(req, res);
+      return true;
     }
   }
 
+  const LastSlashId = path.lastIndexOf('/');
+  const userId = path.substring(LastSlashId + 1);
 
   switch (method) {
     case HHTPmethod.GET:
-      await handleGetMethod();
+      await getUserById(req, res, userId);
       return true;
     case HHTPmethod.DELETE:
-      await handleDeleteMethod();
-      return true;
-    case HHTPmethod.POST:
-      await handlePostMethod();
+      await deleteUserById(req, res, userId);
       return true;
     case HHTPmethod.PUT:
-      await handlePutMethod();
+      await updateUserById(req, res, userId);
       return true;
   }
 
